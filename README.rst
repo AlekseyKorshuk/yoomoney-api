@@ -25,11 +25,11 @@ Summary
 
   #. `Quickpay forms`_
 
-========
+============
 Introduction
-========
+============
 
-This repository is based on the official documentation of `YooMoney <https://yoomoney.ru/docs/wallet>`_.
+This repository is based on the official documentation of `YooMoney <https://yoomoney.ru/docs/wallet>`__.
 
 ========
 Features
@@ -43,9 +43,16 @@ Implemented methods:
 - `Operation details`_ - Provides detailed information about a particular operation from the history.
 - `Quickpay forms`_ - The YooMoney form is a set of fields with information about a transfer. You can embed payment form into your interface (for instance, a website or blog). When the sender pushes the button, the details from the form are sent to YooMoney and an order for a transfer to your wallet is initiated.
 
-=========
+============
 Installation
-=========
+============
+
+You can install with:
+
+.. code:: shell
+
+        pip install yoomoney --upgrade
+
 
 You can install from source with:
 
@@ -55,16 +62,16 @@ You can install from source with:
     cd yoomoney-api
     python setup.py install
 
-=============
+===========
 Quick start
-=============
+===========
 
 Access token
-**********
+************
 
 First of all we need to receive an access token.
 
-1. Log in to your YooMoney wallet with your username. If you don’t have a wallet, `create it <https://yoomoney.ru/reg>`_.
+1. Log in to your YooMoney wallet with your username. If you do not have a wallet, `create it <https://yoomoney.ru/reg>`_.
 2. Go to the `App registration <https://yoomoney.ru/myservices/new>`_ page.
 3. Set the application parameters. Save CLIENT_ID and YOUR_REDIRECT_URI for net steps
 4. Click the Confirm button.
@@ -90,7 +97,7 @@ First of all we need to receive an access token.
 You are done with the most difficult part!
 
 Account information
-*********
+*******************
 
 Paste YOUR_TOKEN and run this code:
 
@@ -124,7 +131,7 @@ Paste YOUR_TOKEN and run this code:
           print("No card is linked to the account")
 
 Output:
-********
+*******
 .. code:: python
 
       Account number: 410019014512803
@@ -174,7 +181,7 @@ Paste YOUR_TOKEN and run this code:
           print("\tType       -->", operation.type)
 
 Output:
-********
+*******
 .. code:: python
 
       List of operations:
@@ -224,7 +231,7 @@ Paste YOUR_TOKEN with an OPERATION_ID (example: 670244335488002312) from previou
           print(prop, " " * (max_size - len(prop)), "-->", str(details.__getattribute__(prop)).replace('\n', ' '))
 
 Output:
-********
+*******
 .. code:: python
 
       operation_id     --> 670244335488002312
