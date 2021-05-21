@@ -8,6 +8,6 @@ setup(
     url='https://github.com/AlekseyKorshuk/yoomoney-api',
     license='GPL-3.0',
     author='AlekseyKorshuk',
-    author_email='',
+    author_email='t.me/goodimpression',
     description='Unofficial YooMoney API python library'
 )
