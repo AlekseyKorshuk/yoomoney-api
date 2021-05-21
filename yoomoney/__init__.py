@@ -1,7 +1,3 @@
-__version__ = '0.0.1'
-__license__ = 'GNU Lesser General Public License v3 (LGPLv3)'
-__copyright__ = 'Copyright (C) 2021 Aleksey Korshuk <https://github.com/KorshukAleksey>'
-
 from .account.account import Account
 from .account.balance_details import BalanceDetails
 

@@ -7,9 +7,6 @@ from yoomoney import (
     Account,
     History,
     OperationDetails,
-    __copyright__,
-    __license__,
-    __version__,
 )
 
 

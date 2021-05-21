@@ -1,13 +1,13 @@
-from setuptools import setup
+from setuptools import setup, find_packages, Extension
 
 setup(
     name='YooMoney',
-    version='1.0.0',
-    packages=['yoomoney', 'yoomoney.account', 'yoomoney.history', 'yoomoney.quickpay', 'yoomoney.authorize',
-              'yoomoney.operation', 'yoomoney.operation_details'],
+    version='0.1.0',
+    packages=find_packages(exclude=['tests']),
     url='https://github.com/AlekseyKorshuk/yoomoney-api',
     license='GPL-3.0',
     author='AlekseyKorshuk',
-    author_email='t.me/goodimpression',
-    description='Unofficial YooMoney API python library'
+    author_email='ale-kor02@mail.ru',
+    description='Unofficial YooMoney API python library',
+    long_description=str(open('README.rst').read())
 )
