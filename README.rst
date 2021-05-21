@@ -53,6 +53,7 @@ You can install from source with:
 
     git clone https://github.com/AlekseyKorshuk/yoomoney-api --recursive
     cd yoomoney-api
+    python setup.py install
 
 =============
 Quick start
