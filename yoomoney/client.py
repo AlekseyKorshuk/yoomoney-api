@@ -13,14 +13,11 @@ from yoomoney import (
 class Client:
     def __init__(self,
                  token: str = None,
-                 base_url: str = None,
+                 base_url: str = "https://yoomoney.ru/api/"
                  ):
 
-        if base_url is None:
-            self.base_url = "https://yoomoney.ru/api/"
-
-        if token is not None:
-            self.token = token
+        self.base_url = base_url
+        self.token = token
 
 
 
