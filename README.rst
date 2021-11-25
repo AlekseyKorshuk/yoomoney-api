@@ -71,6 +71,8 @@ Access token
 
 First of all we need to receive an access token.
 
+.. image:: token.gif
+
 1. Log in to your YooMoney wallet with your username. If you do not have a wallet, `create it <https://yoomoney.ru/reg>`_.
 2. Go to the `App registration <https://yoomoney.ru/myservices/new>`_ page.
 3. Set the application parameters. Save CLIENT_ID and YOUR_REDIRECT_URI for net steps
