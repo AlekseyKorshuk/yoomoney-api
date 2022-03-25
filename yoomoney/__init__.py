@@ -7,6 +7,7 @@ from yoomoney.operation_details.operation_details import OperationDetails
 from yoomoney.operation_details.digital_bonus import DigitalBonus
 from yoomoney.operation_details.digital_product import DigitalProduct
 from yoomoney.operation_details.digital_good import DigitalGood
+from yoomoney.request_payment.request_payment import RequestPayment
 
 from .history.history import History
 
@@ -17,15 +18,16 @@ from .quickpay.quickpay import Quickpay
 from .client import Client
 
 __all__ = [
-    'Client',
-    'Account',
-    'BalanceDetails',
-    'Operation',
-    'History',
-    'Authorize',
+    "Client",
+    "Account",
+    "BalanceDetails",
+    "Operation",
+    "History",
+    "Authorize",
     "OperationDetails",
     "DigitalBonus",
     "DigitalProduct",
     "DigitalGood",
     "Quickpay",
-    ]
+    "RequestPayment"
+]

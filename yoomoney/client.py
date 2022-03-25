@@ -7,6 +7,7 @@ from yoomoney import (
     Account,
     History,
     OperationDetails,
+    RequestPayment,
 )
 
 
@@ -21,8 +22,6 @@ class Client:
 
         if token is not None:
             self.token = token
-
-
 
     def account_info(self):
         method = "account-info"
@@ -62,3 +61,29 @@ class Client:
                                 method=method,
                                 operation_id=operation_id,
                                 )
+
+    def request_payment(self,
+                        pattern_id: str = "p2p",
+                        to: str = "410019014512803",
+                        amount: float = None,
+                        amount_due: float = None,
+                        comment: str = None,
+                        message: str = None,
+                        label: str = None,
+                        codepro: bool = True,
+                        expire_period: int = 1,
+                        ):
+        method = "request-payment"
+        return RequestPayment(base_url=self.base_url,
+                              token=self.token,
+                              method=method,
+                              pattern_id=pattern_id,
+                              to=to,
+                              amount=amount,
+                              amount_due=amount_due,
+                              comment=comment,
+                              message=message,
+                              label=label,
+                              codepro=codepro,
+                              expire_period=expire_period,
+                              )
