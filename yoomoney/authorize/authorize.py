@@ -12,7 +12,7 @@ class Authorize:
     def __init__(
             self,
             client_id: str,
-            client_secret: str,
+            client_secret: str=None,
             redirect_uri: str,
             scope: List[str]
                   ):
@@ -39,12 +39,8 @@ class Authorize:
         except:
             pass
 
-        url = "https://yoomoney.ru/oauth/token?code={code}&client_id={client_id}" \
-              "&client_secret={client_secret}&grant_type=authorization_code&redirect_uri={redirect_uri}".format(code=str(code),
-                                                                                 client_id=client_id,
-                                                                                 client_secret=client_secret,
-                                                                                 redirect_uri=redirect_uri,
-                                                                                 )
+        url = f"https://yoomoney.ru/oauth/token?code={code}&client_id={client_id}" \
+              f"{('&client_secret=' + client_secret) if client_secret!=None else ''}&grant_type=authorization_code&redirect_uri={redirect_uri}"
 
         response = requests.request("POST", url, headers=headers)
 
