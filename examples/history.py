@@ -20,4 +20,3 @@ for operation in history.operations:
     print("\tAmount     -->", operation.amount)
     print("\tLabel      -->", operation.label)
     print("\tType       -->", operation.type)
-

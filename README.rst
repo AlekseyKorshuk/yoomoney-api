@@ -77,7 +77,7 @@ First of all we need to receive an access token.
 2. Go to the `App registration <https://yoomoney.ru/myservices/new>`_ page.
 3. Set the application parameters. Save CLIENT_ID and YOUR_REDIRECT_URI for net steps
 4. Click the Confirm button.
-5. Paste CLIENT_ID and REDIRECT_URI insted of YOUR_CLIENT_ID and YOUR_REDIRECT_URI. Choose scopes and run code.
+5. Paste CLIENT_ID, REDIRECT_URI and CLIENT_SECRET insted of YOUR_CLIENT_ID, YOUR_REDIRECT_URI and YOUR_CLIENT_SECRET. Choose scopes and run code.
 6. Follow all steps from the program.
 
 .. code:: python
@@ -87,6 +87,7 @@ First of all we need to receive an access token.
     Authorize(
           client_id="YOUR_CLIENT_ID",
           redirect_uri="YOUR_REDIRECT_URI",
+          client_secret="YOUR_CLIENT_SECRET",
           scope=["account-info",
                  "operation-history",
                  "operation-details",
