@@ -41,7 +41,6 @@ class Authorize:
 
         url = "https://yoomoney.ru/oauth/token?code={code}&client_id={client_id}&" \
               "grant_type=authorization_code&redirect_uri={redirect_uri}&client_secret={client_secret}".format(code=str(code), client_id=client_id, redirect_uri=redirect_uri, client_secret=client_secret )
-        
         response = requests.request("POST", url, headers=headers)
 
         if "error" in response.json():
