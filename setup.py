@@ -3,7 +3,7 @@ from setuptools import setup, find_packages, Extension
 setup(
     name='YooMoney',
     version='0.1.1',
-    packages=find_packages(exclude=['tests']),
+    packages=["requests"],
     url='https://github.com/AlekseyKorshuk/yoomoney-api',
     license='GPL-3.0',
     author='AlekseyKorshuk',
