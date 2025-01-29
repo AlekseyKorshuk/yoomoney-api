@@ -154,7 +154,7 @@ class History:
         url = self.__private_base_url + self.__private_method
 
         headers = {
-            'Authorization': 'Bearer ' + str(access_token),
+            'Authorization': 'Bearer ' + access_token,
             'Content-Type': 'application/x-www-form-urlencoded'
         }
 
