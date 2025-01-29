@@ -61,7 +61,7 @@ class History:
                     S=str(till_date.second)
                 )
         except:
-            IllegalParamTillDate()
+            raise IllegalParamTillDate()
 
         self.from_date = from_date
         self.till_date = till_date
