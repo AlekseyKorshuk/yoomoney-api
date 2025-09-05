@@ -1,10 +1,10 @@
+import requests
+import re
+
 from datetime import datetime
 from typing import Optional
-import requests
-import json
 
 from yoomoney.operation.operation import Operation
-
 from yoomoney.exceptions import (
     IllegalParamType,
     IllegalParamStartRecord,
@@ -12,32 +12,35 @@ from yoomoney.exceptions import (
     IllegalParamLabel,
     IllegalParamFromDate,
     IllegalParamTillDate,
-    TechnicalError
+    TechnicalError,
+    InvalidToken
     )
 
 
 class History:
-    def __init__(self,
-                 base_url: str = None,
-                 token: str = None,
-                 method: str = None,
-                 type: str = None,
-                 label: str = None,
-                 from_date: Optional[datetime] = None,
-                 till_date: Optional[datetime] = None,
-                 start_record: str = None,
-                 records: int = None,
-                 details: bool = None,
-                 ):
+    def __init__(
+        self,
+        base_url: str = None,
+        token: str = None,
+        method: str = None,
+        type: str = None,
+        label: str = None,
+        from_date: Optional[datetime] = None,
+        till_date: Optional[datetime] = None,
+        start_record: str = None,
+        records: int = None,
+        details: bool = None
+    ):
 
         self.__private_method = method
-
         self.__private_base_url = base_url
         self.__private_token = token
 
         self.type = type
         self.label = label
+
         try:
+
             if from_date is not None:
                 from_date = "{Y}-{m}-{d}T{H}:{M}:{S}".format(
                     Y=str(from_date.year),
@@ -47,10 +50,12 @@ class History:
                     M=str(from_date.minute),
                     S=str(from_date.second)
                 )
+
         except:
             raise IllegalParamFromDate()
 
         try:
+
             if till_date is not None:
                 till_date = "{Y}-{m}-{d}T{H}:{M}:{S}".format(
                     Y=str(till_date.year),
@@ -60,6 +65,7 @@ class History:
                     M=str(till_date.minute),
                     S=str(till_date.second)
                 )
+
         except:
             raise IllegalParamTillDate()
 
@@ -104,7 +110,10 @@ class History:
             else:
                 param["status"] = None
             if "datetime" in operation_data:
-                param["datetime"] = datetime.strptime(str(operation_data["datetime"]).replace("T", " ").replace("Z", ""), '%Y-%m-%d %H:%M:%S')
+                param["datetime"] = datetime.strptime(
+                    str(operation_data["datetime"]).replace("T", " ").replace("Z", ""), 
+                    '%Y-%m-%d %H:%M:%S'
+                )
             else:
                 param["datetime"] = None
             if "title" in operation_data:
@@ -136,7 +145,10 @@ class History:
             operation = Operation(
                 operation_id= param["operation_id"],
                 status=param["status"],
-                datetime=datetime.strptime(str(param["datetime"]).replace("T", " ").replace("Z", ""), '%Y-%m-%d %H:%M:%S'),
+                datetime=datetime.strptime(
+                    str(param["datetime"]).replace("T", " ").replace("Z", ""), 
+                    '%Y-%m-%d %H:%M:%S'
+                ),
                 title=param["title"],
                 pattern_id=param["pattern_id"],
                 direction=param["direction"],
@@ -175,5 +187,11 @@ class History:
             payload["details"] = self.details
 
         response = requests.request("POST", url, headers=headers, data=payload)
+        headers = response.headers
 
+        if headers.setdefault("WWW-Authenticate"):
+            if re.search(r"invalid_token", headers["WWW-Authenticate"]):
+                
+                raise InvalidToken()
+            
         return response.json()

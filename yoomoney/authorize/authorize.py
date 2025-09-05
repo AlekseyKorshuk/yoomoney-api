@@ -1,6 +1,6 @@
-from typing import List
 import requests
 
+from typing import List
 from yoomoney.exceptions import (
     InvalidRequest,
     UnauthorizedClient,
@@ -8,39 +8,50 @@ from yoomoney.exceptions import (
     EmptyToken
 )
 
+
 class Authorize:
     def __init__(
-            self,
-            client_id: str,
-            redirect_uri: str,
-            client_secret: str,
-            scope: List[str]
-                  ):
+        self,
+        client_id: str,
+        redirect_uri: str,
+        client_secret: str,
+        scope: List[str]
+    ):
 
         url = "https://yoomoney.ru/oauth/authorize?client_id={client_id}&response_type=code" \
-              "&redirect_uri={redirect_uri}&scope={scope}".format(client_id=client_id,
-                                                                  redirect_uri=redirect_uri,
-                                                                  scope='%20'.join([str(elem) for elem in scope]),
-                                                                  )
+                "&redirect_uri={redirect_uri}&scope={scope}".format(
+                    client_id=client_id,
+                    redirect_uri=redirect_uri,
+                    scope='%20'.join([str(elem) for elem in scope]),
+                )
 
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-
+        headers = {'Content-Type': 'application/x-www-form-urlencoded'}
         response = requests.request("POST", url, headers=headers)
 
         if response.status_code == 200:
+
             print("Visit this website and confirm the application authorization request:")
             print(response.url)
 
-        code = str(input("Enter redirected url (https://yourredirect_uri?code=XXXXXXXXXXXXX) or just code: "))
+        code = str(input(
+            "Enter redirected url (https://yourredirect_uri?code=XXXXXXXXXXXXX) or just code: "
+        ))
+
         try:
+
             code = code[code.index("code=") + 5:].replace(" ","")
+
         except:
             pass
 
         url = "https://yoomoney.ru/oauth/token?code={code}&client_id={client_id}&" \
-              "grant_type=authorization_code&redirect_uri={redirect_uri}&client_secret={client_secret}".format(code=str(code), client_id=client_id, redirect_uri=redirect_uri, client_secret=client_secret )
+            "grant_type=authorization_code&redirect_uri={redirect_uri}&client_secret" \
+            "={client_secret}".format(
+                code=str(code), 
+                client_id=client_id, 
+                redirect_uri=redirect_uri, 
+                client_secret=client_secret
+            )
         response = requests.request("POST", url, headers=headers)
 
         if "error" in response.json():

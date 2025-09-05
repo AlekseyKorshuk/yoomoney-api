@@ -1,24 +1,27 @@
+import requests
+
 from datetime import datetime
 from typing import Optional, List
-import requests
 
 from yoomoney.exceptions import (
     IllegalParamOperationId,
     TechnicalError
     )
-
 from yoomoney.operation_details.digital_product import DigitalProduct
+
 from yoomoney.operation_details.digital_bonus import DigitalBonus
 from yoomoney.operation_details.digital_good import DigitalGood
 
 
 class OperationDetails:
-    def __init__(self,
-                 base_url: str,
-                 token: str,
-                 operation_id: str,
-                 method: str = None,
-                 ):
+    def __init__(
+        self,
+        base_url: str,
+        token: str,
+        operation_id: str,
+        method: str = None,
+    ):
+        
         self.__private_method = method
         self.__private_token = token
         self.__private_base_url = base_url
@@ -67,7 +70,9 @@ class OperationDetails:
         if "fee" in data:
             self.fee = data["fee"]
         if "datetime" in data:
-            self.datetime = datetime.strptime(str(data["datetime"]).replace("T", " ").replace("Z", ""), '%Y-%m-%d %H:%M:%S')
+            self.datetime = datetime.strptime(
+                str(data["datetime"]).replace("T", " ").replace("Z", ""), '%Y-%m-%d %H:%M:%S'
+            )
         if "title" in data:
             self.title = data["title"]
         if "sender" in data:
@@ -85,9 +90,14 @@ class OperationDetails:
         if "protection_code" in data:
             self.protection_code = data["protection_code"]
         if "expires" in data:
-            self.datetime = datetime.strptime(str(data["expires"]).replace("T", " ").replace("Z", ""), '%Y-%m-%d %H:%M:%S')
+            self.datetime = datetime.strptime(
+                str(data["expires"]).replace("T", " ").replace("Z", ""), '%Y-%m-%d %H:%M:%S'
+            )
         if "answer_datetime" in data:
-            self.datetime = datetime.strptime(str(data["answer_datetime"]).replace("T", " ").replace("Z", ""), '%Y-%m-%d %H:%M:%S')
+            self.datetime = datetime.strptime(
+                str(data["answer_datetime"]).replace("T", " ").replace("Z", ""), 
+                '%Y-%m-%d %H:%M:%S'
+            )
         if "label" in data:
             self.label = data["label"]
         if "details" in data:
@@ -96,23 +106,25 @@ class OperationDetails:
             self.type = data["type"]
         if "digital_goods" in data:
             products: List[DigitalProduct] = []
+
             for product in data["digital_goods"]["article"]:
-                digital_product = DigitalProduct(merchant_article_id=product["merchantArticleId"],
-                                                 serial=product["serial"],
-                                                 secret=product["secret"],
-                                                 )
+                digital_product = DigitalProduct(
+                    merchant_article_id=product["merchantArticleId"],
+                    serial=product["serial"],
+                    secret=product["secret"],
+                )
                 products.append(digital_product)
 
             bonuses: List[DigitalBonus] = []
+
             for bonus in data["digital_goods"]["bonus"]:
-                digital_product = DigitalBonus(serial=bonus["serial"],
-                                               secret=bonus["secret"],
-                                               )
+                digital_product = DigitalBonus(
+                    serial=bonus["serial"],
+                    secret=bonus["secret"],
+                )
                 bonuses.append(digital_product)
 
-            self.digital_goods = DigitalGood(products=products,
-                                             bonuses=bonuses
-                                             )
+            self.digital_goods = DigitalGood(products=products,bonuses=bonuses)
 
     def _request(self):
 
@@ -125,10 +137,15 @@ class OperationDetails:
         }
 
         payload = {}
-
         payload["operation_id"] = self.operation_id
 
 
         response = requests.request("POST", url, headers=headers, data=payload)
+        headers = response.headers
+
+        if headers.setdefault("WWW-Authenticate"):
+            if re.search(r"invalid_token", headers["WWW-Authenticate"]):
+                
+                raise InvalidToken()
 
         return response.json()
