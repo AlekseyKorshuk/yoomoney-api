@@ -1,11 +1,6 @@
+from pydantic import BaseModel
 
 
-
-class Card:
-    def __init__(self,
-                 pan_fragment: str = None,
-                 type: str = None,
-                 ):
-        self.pan_fragment = pan_fragment
-        self.type = type
-
+class Card(BaseModel):
+    pan_fragment: str | None = None
+    type: str | None = None

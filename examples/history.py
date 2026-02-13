@@ -11,7 +11,7 @@ print("Next page starts with: ", history.next_record)
 
 for operation in history.operations:
     print()
-    print("Operation:",operation.operation_id)
+    print("Operation:", operation.operation_id)
     print("\tStatus     -->", operation.status)
     print("\tDatetime   -->", operation.datetime)
     print("\tTitle      -->", operation.title)

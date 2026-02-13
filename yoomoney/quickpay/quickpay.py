@@ -1,22 +1,30 @@
-import requests
+from typing import Any
+
+import httpx
+
 
 class Quickpay:
-    def __init__(self,
-                 receiver: str,
-                 quickpay_form : str,
-                 targets: str,
-                 paymentType: str,
-                 sum: float,
-                 formcomment: str = None,
-                 short_dest: str = None,
-                 label: str = None,
-                 comment: str = None,
-                 successURL: str = None,
-                 need_fio: bool = None,
-                 need_email: bool = None,
-                 need_phone: bool = None,
-                 need_address: bool = None,
-                 ):
+    """Build and execute a YooMoney QuickPay payment form."""
+
+    _BASE = "https://yoomoney.ru/quickpay/confirm.xml"
+
+    def __init__(
+        self,
+        receiver: str,
+        quickpay_form: str,
+        targets: str,
+        paymentType: str,
+        sum: float,
+        formcomment: str | None = None,
+        short_dest: str | None = None,
+        label: str | None = None,
+        comment: str | None = None,
+        successURL: str | None = None,
+        need_fio: bool | None = None,
+        need_email: bool | None = None,
+        need_phone: bool | None = None,
+        need_address: bool | None = None,
+    ) -> None:
         self.receiver = receiver
         self.quickpay_form = quickpay_form
         self.targets = targets
@@ -34,44 +42,34 @@ class Quickpay:
 
         self.response = self._request()
 
-    def _request(self):
+    # -- internals -----------------------------------------------------------
 
-        self.base_url = "https://yoomoney.ru/quickpay/confirm.xml?"
+    def _build_params(self) -> dict[str, Any]:
+        """Build URL query parameters, using the hyphenated keys the API expects."""
+        mapping: dict[str, Any] = {
+            "receiver": self.receiver,
+            "quickpay-form": self.quickpay_form,
+            "targets": self.targets,
+            "paymentType": self.paymentType,
+            "sum": self.sum,
+            "formcomment": self.formcomment,
+            "short-dest": self.short_dest,
+            "label": self.label,
+            "comment": self.comment,
+            "successURL": self.successURL,
+            "need-fio": self.need_fio,
+            "need-email": self.need_email,
+            "need-phone": self.need_phone,
+            "need-address": self.need_address,
+        }
+        return {k: v for k, v in mapping.items() if v is not None}
 
-        payload = {}
+    def _request(self) -> httpx.Response:
+        params = self._build_params()
+        # Build the full URL with properly-encoded query string
+        request = httpx.Request("GET", self._BASE, params=params)
+        self.base_url = str(request.url)
 
-        payload["receiver"] = self.receiver
-        payload["quickpay_form"] = self.quickpay_form
-        payload["targets"] = self.targets
-        payload["paymentType"] = self.paymentType
-        payload["sum"] = self.sum
-
-        if self.formcomment != None:
-            payload["formcomment"] = self.formcomment
-        if self.short_dest != None:
-            payload["short_dest"] = self.short_dest
-        if self.label != None:
-            payload["label"] = self.label
-        if self.comment != None:
-            payload["comment"] = self.comment
-        if self.successURL != None:
-            payload["successURL"] = self.successURL
-        if self.need_fio != None:
-            payload["need_fio"] = self.need_fio
-        if self.need_email != None:
-            payload["need_email"] = self.need_email
-        if self.need_phone != None:
-            payload["need_phone"] = self.need_phone
-        if self.need_address != None:
-            payload["need_address"] = self.need_address
-
-        for value in payload:
-            self.base_url+=str(value).replace("_","-") + "=" + str(payload[value])
-            self.base_url+="&"
-
-        self.base_url = self.base_url[:-1].replace(" ", "%20")
-
-        response = requests.request("POST", self.base_url)
-
-        self.redirected_url = response.url
+        response = httpx.post(self.base_url, follow_redirects=True)
+        self.redirected_url = str(response.url)
         return response

@@ -1,14 +1,11 @@
-from typing import List
+from pydantic import BaseModel, Field
 
-from yoomoney.operation_details.digital_product import DigitalProduct
 from yoomoney.operation_details.digital_bonus import DigitalBonus
+from yoomoney.operation_details.digital_product import DigitalProduct
 
 
+class DigitalGood(BaseModel):
+    products: list[DigitalProduct] = Field(default_factory=list, alias="article")
+    bonuses: list[DigitalBonus] = Field(default_factory=list, alias="bonus")
 
-class DigitalGood:
-    def __init__(self,
-                 products: List[DigitalProduct],
-                 bonuses: List[DigitalBonus]
-                 ):
-        self.products = products
-        self.bonuses = bonuses
+    model_config = {"populate_by_name": True}

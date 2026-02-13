@@ -1,24 +1,22 @@
 from datetime import datetime as dt
-from typing import Optional
 
-class Operation:
-    def __init__(self,
-                 operation_id: str = None,
-                 status: str = None,
-                 datetime: Optional[dt] = None,
-                 title: str = None,
-                 pattern_id: str = None,
-                 direction: str = None,
-                 amount: float = None,
-                 label: str = None,
-                 type: str = None,
-                 ):
-        self.operation_id = operation_id
-        self.status = status
-        self.datetime = datetime
-        self.title = title
-        self.pattern_id = pattern_id
-        self.direction = direction
-        self.amount = amount
-        self.label = label
-        self.type = type
+from pydantic import BaseModel, field_validator
+
+
+class Operation(BaseModel):
+    operation_id: str | None = None
+    status: str | None = None
+    datetime: dt | None = None
+    title: str | None = None
+    pattern_id: str | None = None
+    direction: str | None = None
+    amount: float | None = None
+    label: str | None = None
+    type: str | None = None
+
+    @field_validator("datetime", mode="before")
+    @classmethod
+    def _parse_datetime(cls, v: object) -> object:
+        if isinstance(v, str):
+            return dt.fromisoformat(v.replace("Z", ""))
+        return v

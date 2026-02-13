@@ -7,46 +7,46 @@ from yoomoney._parsers import (
     parse_history,
     parse_operation_details,
 )
-from yoomoney._transport import SyncTransport
+from yoomoney._transport import AsyncTransport
 from yoomoney.account.account import Account
 from yoomoney.history.history import History
 from yoomoney.operation_details.operation_details import OperationDetails
 
 
-class Client:
-    """Synchronous YooMoney API client."""
+class AsyncClient:
+    """Asynchronous YooMoney API client."""
 
     def __init__(
         self,
         token: str | None = None,
         base_url: str | None = None,
     ) -> None:
-        self._transport = SyncTransport(token=token or "", base_url=base_url)
+        self._transport = AsyncTransport(token=token or "", base_url=base_url)
 
-    # -- context-manager support ---------------------------------------------
+    # -- async context-manager support ---------------------------------------
 
-    def __enter__(self) -> "Client":
+    async def __aenter__(self) -> "AsyncClient":
         return self
 
-    def __exit__(
+    async def __aexit__(
         self,
         exc_type: type[BaseException] | None,
         exc_val: BaseException | None,
         exc_tb: TracebackType | None,
     ) -> None:
-        self.close()
+        await self.close()
 
-    def close(self) -> None:
+    async def close(self) -> None:
         """Close the underlying HTTP connection pool."""
-        self._transport.close()
+        await self._transport.close()
 
     # -- API methods ---------------------------------------------------------
 
-    def account_info(self) -> Account:
-        data = self._transport.request("account-info")
+    async def account_info(self) -> Account:
+        data = await self._transport.request("account-info")
         return parse_account(data)
 
-    def operation_history(
+    async def operation_history(
         self,
         type: str | None = None,
         label: str | None = None,
@@ -65,11 +65,11 @@ class Client:
             records=records,
             details=details,
         )
-        data = self._transport.request("operation-history", data=payload)
+        data = await self._transport.request("operation-history", data=payload)
         return parse_history(data)
 
-    def operation_details(self, operation_id: str) -> OperationDetails:
-        data = self._transport.request(
+    async def operation_details(self, operation_id: str) -> OperationDetails:
+        data = await self._transport.request(
             "operation-details",
             data={"operation_id": operation_id},
         )
