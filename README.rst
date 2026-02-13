@@ -21,8 +21,6 @@ YooMoney API
    :local:
    :backlinks: none
 
-----
-
 Introduction
 ============
 
