@@ -1,18 +1,18 @@
-.. raw:: html
+YooMoney API
+============
 
-   <p align="center">
-     <a href="README.rst">🇬🇧 English version</a>
-   </p>
+*Неофициальная Python-библиотека для YooMoney API*
 
-.. raw:: html
+|pypi| |python| |license|
 
-   <h1 align="center">YooMoney API</h1>
-   <p align="center"><i>Неофициальная Python-библиотека для YooMoney API</i></p>
-   <p align="center">
-     <a href="https://pypi.org/project/yoomoney/"><img src="https://img.shields.io/pypi/v/yoomoney?color=blue&label=PyPI" alt="PyPI"></a>
-     <a href="https://pypi.org/project/yoomoney/"><img src="https://img.shields.io/pypi/pyversions/yoomoney" alt="Python"></a>
-     <a href="https://github.com/AlekseyKorshuk/yoomoney-api/blob/master/LICENSE"><img src="https://img.shields.io/github/license/AlekseyKorshuk/yoomoney-api" alt="Лицензия"></a>
-   </p>
+.. |pypi| image:: https://img.shields.io/pypi/v/yoomoney?color=blue&label=PyPI
+   :target: https://pypi.org/project/yoomoney/
+.. |python| image:: https://img.shields.io/pypi/pyversions/yoomoney
+   :target: https://pypi.org/project/yoomoney/
+.. |license| image:: https://img.shields.io/github/license/AlekseyKorshuk/yoomoney-api
+   :target: https://github.com/AlekseyKorshuk/yoomoney-api/blob/master/LICENSE
+
+`🇬🇧 English version <README.rst>`_
 
 ----
 
