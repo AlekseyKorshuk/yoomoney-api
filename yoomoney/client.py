@@ -23,8 +23,6 @@ class Client:
     ) -> None:
         self._transport = SyncTransport(token=token or "", base_url=base_url)
 
-    # -- context-manager support ---------------------------------------------
-
     def __enter__(self) -> "Client":
         return self
 
@@ -39,8 +37,6 @@ class Client:
     def close(self) -> None:
         """Close the underlying HTTP connection pool."""
         self._transport.close()
-
-    # -- API methods ---------------------------------------------------------
 
     def account_info(self) -> Account:
         data = self._transport.request("account-info")

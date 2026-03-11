@@ -42,8 +42,6 @@ class Quickpay:
 
         self.response = self._request()
 
-    # -- internals -----------------------------------------------------------
-
     def _build_params(self) -> dict[str, Any]:
         """Build URL query parameters, using the hyphenated keys the API expects."""
         mapping: dict[str, Any] = {
@@ -66,7 +64,6 @@ class Quickpay:
 
     def _request(self) -> httpx.Response:
         params = self._build_params()
-        # Build the full URL with properly-encoded query string
         request = httpx.Request("GET", self._BASE, params=params)
         self.base_url = str(request.url)
 

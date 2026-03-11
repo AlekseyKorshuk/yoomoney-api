@@ -1,0 +1,4 @@
+# Зависимости для FastAPI webhook
+# pip install -r requirements-fastapi.txt
+fastapi>=0.110.0
+python-multipart>=0.0.9     # нужен для чтения form-data в FastAPI

@@ -10,9 +10,6 @@ class YooMoneyError(Exception):
         super().__init__(self.message)
 
 
-# -- Authentication / authorisation errors ----------------------------------
-
-
 class InvalidToken(YooMoneyError):
     message = "Token is not valid, or does not have the appropriate rights"
 
@@ -39,9 +36,6 @@ class InvalidGrant(YooMoneyError):
         "the token is expired, or this temporary token has already been issued "
         "'access_token' (repeated request for an authorization token with the same temporary token)"
     )
-
-
-# -- Illegal parameter errors -----------------------------------------------
 
 
 class IllegalParamType(YooMoneyError):
@@ -72,14 +66,9 @@ class IllegalParamOperationId(YooMoneyError):
     message = "Invalid parameter value 'operation_id'"
 
 
-# -- Technical errors --------------------------------------------------------
-
-
 class TechnicalError(YooMoneyError):
     message = "Technical error, try calling the operation again later"
 
-
-# -- Error mapping -----------------------------------------------------------
 
 ERROR_MAP: dict[str, type[YooMoneyError]] = {
     "illegal_param_type": IllegalParamType,
