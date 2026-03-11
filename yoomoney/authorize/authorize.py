@@ -43,8 +43,6 @@ class Authorize:
         print("Your access token:")
         print(access_token)
 
-    # -- helpers (static / class methods for testability) --------------------
-
     @staticmethod
     def _build_authorize_url(client_id: str, redirect_uri: str, scope: list[str]) -> str:
         params = {

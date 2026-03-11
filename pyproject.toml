@@ -1,14 +1,14 @@
 [project]
 name = "yoomoney"
-version = "2.0.0"
-description = "Unofficial YooMoney API python library"
+version = "2.1.0"
+description = "Unofficial YooMoney API python library with webhook support"
 readme = "README.rst"
 license = "GPL-3.0-only"
 requires-python = ">=3.10"
 authors = [
     { name = "AlekseyKorshuk", email = "ale-kor02@mail.ru" },
 ]
-keywords = ["yoomoney", "api", "payments", "wallet"]
+keywords = ["yoomoney", "api", "payments", "wallet", "webhook"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -24,6 +24,11 @@ dependencies = [
     "httpx>=0.27.0",
     "pydantic>=2.0.0",
 ]
+
+[project.optional-dependencies]
+flask   = ["flask>=3.0.0"]
+fastapi = ["fastapi>=0.110.0", "python-multipart>=0.0.9"]
+all     = ["flask>=3.0.0", "fastapi>=0.110.0", "python-multipart>=0.0.9"]
 
 [project.urls]
 Homepage = "https://github.com/AlekseyKorshuk/yoomoney-api"
@@ -145,4 +150,7 @@ ignore = [
 ]
 "yoomoney/_parsers.py" = [
     "A002",  # `type` param in build_history_payload() matches YooMoney API
+]
+"yoomoney/checker/checker.py" = [
+    "SIM102", # nested if is more readable here
 ]
