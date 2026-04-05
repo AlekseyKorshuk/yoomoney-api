@@ -33,10 +33,19 @@ def parse_operation_details(data: dict[str, Any]) -> OperationDetails:
 
 
 def format_datetime(value: datetime | None) -> str | None:
-    """Format a *datetime* for use in API request payloads."""
+    """Format a *datetime* for use in API request payloads.
+
+    YooMoney API requires ISO 8601 format with timezone offset,
+    e.g.: 2011-07-11T20:43:00.000+03:00
+    """
     if value is None:
         return None
-    return f"{value.year}-{value.month}-{value.day}T{value.hour}:{value.minute}:{value.second}"
+    # If datetime is naive (no tzinfo), assume UTC and add +00:00
+    if value.tzinfo is None:
+        from datetime import timezone
+        value = value.replace(tzinfo=timezone.utc)
+    # Format as ISO 8601 with timezone
+    return value.isoformat()
 
 
 def build_history_payload(
